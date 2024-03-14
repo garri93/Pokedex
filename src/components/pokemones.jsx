@@ -5,7 +5,19 @@ const Pokemones = () => {
 const [listPokemons, setListPokemons] = useState([]);
 const [previous, setPrevious] = useState();
 const [next, setNext] = useState();
-const [current, setCurrent] = useState('https://pokeapi.co/api/v2/pokemon?limit=20&offset=0');
+const [current, setCurrent] = useState('https://pokeapi.co/api/v2/pokemon?limit=3&offset=0');
+
+
+const obtenerId = (link) => {
+    const partes = link.split("/");
+    const idPokemon = partes[partes.length - 2]
+    return idPokemon;
+  }
+
+  const primeraLetraMayusculas = (texto) => {
+    return texto.charAt(0).toUpperCase() + texto.slice(1);
+  }
+
 
 useEffect(() => {
     async function obtenerPokemons() {
@@ -22,19 +34,20 @@ useEffect(() => {
 
 return (
     <div>
-    <ul>
+   
         {listPokemons.map((pokemon, index) => {
             return (
-                <>
-            <li ><img src={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+index+'.png'}/></li>
-            <li >{pokemon.name}</li>
-            </>
+            <ul key={index}>
+                <li><img src={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+obtenerId(pokemon.url)+'.png'}/></li>
+                <li>{primeraLetraMayusculas(pokemon.name)}</li>
+                <li>{pokemon.id}</li>
+            </ul>
             )
             
         })
         }
     
-    </ul>
+    
 
     <button onClick={() => previous !== null && setCurrent(previous)}>Anteriores</button>
     <button onClick={() => next !== null && setCurrent(next)}>Siguientes</button>
