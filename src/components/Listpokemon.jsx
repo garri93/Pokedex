@@ -1,5 +1,6 @@
 import React from "react";
 import { useEffect, useState } from "react";
+import { primeraLetraMayusculas } from '../utils';
 
 const Pokemones = () => {
 const [listPokemons, setListPokemons] = useState([]);
@@ -14,11 +15,6 @@ const obtenerId = (link) => {
     return idPokemon;
   }
 
-  const primeraLetraMayusculas = (texto) => {
-    return texto.charAt(0).toUpperCase() + texto.slice(1);
-  }
-
-
 useEffect(() => {
     async function obtenerPokemons() {
         const response = await fetch(current);
@@ -26,7 +22,7 @@ useEffect(() => {
         setListPokemons(data.results);
         setPrevious(data.previous);
         setNext(data.next);
-        console.log(data);
+        ///console.log(data);
     }
 
     obtenerPokemons();
