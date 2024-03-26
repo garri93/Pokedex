@@ -1,61 +1,45 @@
-import React from "react";
-import {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { primeraLetraMayusculas } from '../utils';
 
-
 const VistaRapida = () => {
+  const [dataPokemons, setDataPokemons] = useState([]);
+  const [previous, setPrevious] = useState();
+  const [next, setNext] = useState();
+  const [current, setCurrent] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-    const [dataPokemons, setDataPokemons] = useState([]);
-    const [previous, setPrevious] = useState();
-    const [next, setNext] = useState();
-    const [current, setCurrent] = useState('https://pokeapi.co/api/v2/pokemon/ditto');
+  useEffect(() => {
+    async function obtenerDatos(nombre,id) {
+      setCurrent = "https://pokeapi.co/api/v2/pokemon/"+nombre;
+      const response = await fetch(current);
+      const data = await response.json();
+      setDataPokemons(data);
+      setIsLoading(false);
+    }
 
-    useEffect(() => {
-        async function obtenerDatos() {
-            const response = await fetch(current);
-            const data = await response.json();
-            setDataPokemons(data);
-            console.log(data);
-            console.log(dataPokemons);
-            console.log(dataPokemons.types);
-        }
+    obtenerDatos();
+  }, [current]);
 
-        obtenerDatos();
-}, [current])
-
-    return (
+  return (
+    <div>
         <div>
-            <div>
-                <p>id #{dataPokemons.id}</p>
-            </div>
-            <div>
-                <img src={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+dataPokemons.id+'.png'} />
-            </div>
-
-            <div>
-                <h3>{dataPokemons.name}</h3>
-                <p>Tipo:  {dataPokemons?.types.map(({type: {name}})=> {
-                    <div
-                        key={name}>
-                    </div>
-                })}</p>
-                <p>Altura: {dataPokemons.height}  </p>
-                <p>Peso: {dataPokemons.weight} </p>
-            </div>
-            <div>
-
-            </div>
-            <div>
-                
-            </div>
-            </div>
-    
-        
-       
-    )
-
-
-
-}
+          {/* ... */}
+          <h3>{isLoading ? ("?") : (dataPokemons.name)}</h3>
+          {isLoading ? ("?") :(<img src={'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'+obtenerId(pokemon.url)+'.png'}/>)}
+          <p>Tipo: </p>
+          <div> 
+            {isLoading ? ("?") : (dataPokemons.types && dataPokemons.types.map(({ type: { name } }) => (
+              <div key={name}>{primeraLetraMayusculas(name)}</div>
+            )))}
+          </div>
+          <p>Altura: {isLoading ? ("?") : (dataPokemons.height)}  </p>
+          <p>Peso: {isLoading ? ("?") : (dataPokemons.weight)} </p>
+          {/* ... */}
+        </div>
+    </div>
+  );
+};
 
 export default VistaRapida;
+
+

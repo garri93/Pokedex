@@ -26,7 +26,7 @@ useEffect(() => {
     }
 
     obtenerPokemons();
-}, [current])
+}   )
 
 return (
     <div>
