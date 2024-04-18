@@ -10,7 +10,8 @@ const VistaRapida = () => {
 
   useEffect(() => {
     async function obtenerDatos(nombre,id) {
-      setCurrent = "https://pokeapi.co/api/v2/pokemon/"+nombre;
+      //setCurrent = "https://pokeapi.co/api/v2/pokemon/"+nombre;
+      setCurrent = "https://pokeapi.co/api/v2/pokemon//ditto";
       const response = await fetch(current);
       const data = await response.json();
       setDataPokemons(data);
