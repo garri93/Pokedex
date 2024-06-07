@@ -1,11 +1,51 @@
 .App {
   text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
+
+.container {
+  display: flex;
+ flex-wrap: wrap;
+  max-width: 1000px;
+  justify-content: flex-start;
+}
+
+.container-lista {
+  width: 68%;
+  max-width: 600px;
+  display: flex;
+  align-content: center;
+  flex-wrap: wrap;
+  border: black 10px inset;
+
+  
+}
+
+.container-lista ul {
+  list-style: none;
+}
+
+.container-vistaprevia {
+  padding: 20px;
+  height: 500px;
+  border: black 10px inset;
+  width: 30%;
+  
+}
+
+.container-paginacion {
+  width: 68%;
+  display: flex;
+  justify-content: space-between;
+
+}
+
 
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
