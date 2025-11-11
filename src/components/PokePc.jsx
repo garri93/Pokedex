@@ -55,17 +55,19 @@ useEffect(() => {
   return (
     <div className="container">
       <VistaRapida dataPokemon={dataPokemon}/>
-      <Paginacion  
-      previous = {previous}
-      next = {next}
-      onprevious={() => setCurrent(previous)}  
-      onnext={() => setCurrent(next)}  
-      />
-      
-      <Listpokemon 
-        listPokemons ={listPokemons} 
-        cargarvistaprevia ={cargarVistaprevia}/>
-
+     
+     <div className="cajaLista">
+        <Paginacion  
+        previous = {previous}
+        next = {next}
+        onprevious={() => setCurrent(previous)}  
+        onnext={() => setCurrent(next)}  
+        />
+        
+        <Listpokemon 
+          listPokemons ={listPokemons} 
+          cargarvistaprevia ={cargarVistaprevia}/>
+    </div>  
 
 
     </div>
