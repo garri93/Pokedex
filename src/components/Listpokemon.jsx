@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { primeraLetraMayusculas } from '../utils';
 import { obtenerId } from '../utils';
+import { useQuery } from "@tanstack/react-query";
 
 const Listpokemon = ({listPokemons,cargarvistaprevia}) => {
     

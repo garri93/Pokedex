@@ -26,7 +26,7 @@ const VistaRapida = ({dataPokemon}) => {
           {/* ... */}
           </div>
           <div>
-            <Link to={`/detallesPokemon/${dataPokemon.id}`}>Mas Detalles</Link>
+            <Link to={`/detallesPokemon/${dataPokemon.name}`} state ={dataPokemon}>Mas Detalles</Link>
             <h3>Detalles</h3>
           </div>
         </div>
