@@ -4,12 +4,16 @@ import { primeraLetraMayusculas } from '../utils';
 import { obtenerId } from '../utils';
 import { useQuery } from "@tanstack/react-query";
 
-const Listpokemon = ({listPokemons,cargarvistaprevia}) => {
+const Listpokemon = ({listPokemons,cargarvistaprevia,fondo}) => {
     
 
     
 return (
-    <div className="container-lista">
+    <div className="container-lista" style={{
+    backgroundImage: `url(${fondo})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  }}>
    
         {listPokemons.map((pokemon, index) => {
             return (

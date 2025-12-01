@@ -13,9 +13,25 @@ const [current, setCurrent] = useState('https://pokeapi.co/api/v2/pokemon?limit=
 const [pagina,setPagina] = useState(1)
 const [dataPokemon, setDataPokemon] = useState([]);
 const [currentprevia, setCurrentprevia] = useState('');
+const [fondo, setFondo] = useState ('');
 
-
-
+const fondos = [
+  "/images/fondos/centropk.jpg",
+  "/images/fondos/cespe.jpg",
+  "/images/fondos/cielo.jpg",
+  "/images/fondos/ciudad.jpg",
+  "/images/fondos/cueva.jpg",
+  "/images/fondos/desierto.jpg",
+  "/images/fondos/lunares.jpg",
+  "/images/fondos/maquinaria.jpg",
+  "/images/fondos/mar.jpg",
+  "/images/fondos/montaña.jpg",
+  "/images/fondos/nieve.jpg",
+  "/images/fondos/playa.jpg",
+  "/images/fondos/rio.jpg",
+  "/images/fondos/sabana.jpg",
+  "/images/fondos/volcan.jpg",
+];
 
 const obtenerId = (link) => {
     const partes = link.split("/");
@@ -34,37 +50,31 @@ const cargarVistaprevia = (nombre) => {
     }
 
 
-        async function obtenerDatosPokemon(currentprevia) {
+    async function obtenerDatosPokemon(currentprevia) {
         const response = await fetch(currentprevia);
         return response.json();
     }
 
 const { isPending: cargadoLista , isError: errorfalloLista, data: datosLista} = useQuery({ queryKey: ['datosApi',current], queryFn: () => obtenerPokemons(current)})
 
-const {isPending: cargadoPokemon , isError: errorfalloPokemon, data: datosPokemon} = useQuery({ queryKey: ['datosPokemon',currentprevia], queryFn: () => obtenerPokemons(current)})
+const {isPending: cargadoPokemon , isError: errorfalloPokemon, data: datosPokemon} = useQuery({ queryKey: ['idDatosPokemon',currentprevia], queryFn: () => obtenerDatosPokemon(currentprevia)})
 
+useEffect ( () => {
+  if (!current) return;
 
+  const calculoiIdFondo = Math.floor(Math.random() * fondos.length);
+  setFondo(fondos[calculoiIdFondo])
 
-useEffect(() => {
-  async function obtenerDatosPokemon() {
-    const obtenerDatosPokemonResponse = await fetch(currentprevia);
-    const obtenerDatosPokemonData = await obtenerDatosPokemonResponse.json();
-    setDataPokemon(obtenerDatosPokemonData);
-    //setIsLoading(false);
-  }
+  console.log(fondo)
+  console.log(calculoiIdFondo)
+}, [current]);
 
-  obtenerDatosPokemon();
-}, [currentprevia]);
-
-
- // const previous = data.previous;
-  //const next = data.next;
 
 
   return (
     <div className="container">
       
-      <VistaRapida dataPokemon={dataPokemon}/>
+      <VistaRapida dataPokemon={datosPokemon}/>
      <div className="cajaLista">
         <Paginacion  
         previous = {datosLista?.previous}
@@ -83,7 +93,9 @@ useEffect(() => {
         <Listpokemon 
           listPokemons ={datosLista?.results || []} 
           cargarvistaprevia ={cargarVistaprevia}
+          fondo = {fondo}
         />
+
 
     </div>  
 

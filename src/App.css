@@ -30,8 +30,13 @@
   flex-wrap: wrap;
 }
 
+
 .container-lista ul {
   list-style: none;
+}
+
+.container-lista img {
+  width: 128%;
 }
 
 .container-vistaprevia {
