@@ -10,9 +10,10 @@ const DetallesPokemons = () => {
   const location = useLocation();
   const detallespokemon = location.state;
   const idPokemon = detallespokemon.id;
+  const procesadorEvoluciones = [];
   const [evoluciones,setEvolucione] = useState([]);
   const [arrayEvoluciones, setArrayEvoluciones] = useState([]);
-
+/*
   function obtenerEvoluciones(evolucion) {
     setArrayEvoluciones(prev => [
         ...prev,
@@ -38,10 +39,10 @@ const DetallesPokemons = () => {
     const dataEvolution = await responseEvolution.json();
     // console.log(dataEvolution)
     console.log('Total',dataEvolution.chain)
-     /*console.log('primera evolucion',dataEvolution.chain.species.name)
-     console.log('segunda evolucion',dataEvolution.chain.evolves_to[0].species.name)
-     console.log('tercera evolucion',dataEvolution.chain.evolves_to[0].evolves_to[0].species.name)
-      console.log('cuantas eviluciones',dataEvolution.chain.evolves_to.length)*/
+     //console.log('primera evolucion',dataEvolution.chain.species.name)
+     //console.log('segunda evolucion',dataEvolution.chain.evolves_to[0].species.name)
+     //console.log('tercera evolucion',dataEvolution.chain.evolves_to[0].evolves_to[0].species.name)
+     // console.log('cuantas eviluciones',dataEvolution.chain.evolves_to.length)
     // console.log(dataEvolution.chain.species.name)
     // console.log(dataEvolution.chain.evolves_to.specie.name)
 
@@ -80,8 +81,65 @@ const DetallesPokemons = () => {
   }
 
   console.log('evoluciones',arrayEvoluciones)
+*/
+
+
+function obtenerEvoluciones(evolucion) {
+  setArrayEvoluciones(prev => [
+      ...prev,
+      {
+        name: evolucion.species.name,
+        url: evolucion.species.url
+      }
+    ]);
+}
+
+
+
+
+
+async function obtenerEvolucionesPokemon(detallespokemon) {
+  const responseSpecies = await fetch(detallespokemon.species.url);
+  const dataSpecies = await responseSpecies.json();
+  const evolutionChainUrl = dataSpecies.evolution_chain.url;
+  const responseEvolution = await fetch(evolutionChainUrl);
+  const dataEvolution = await responseEvolution.json();
+  return dataEvolution;
+}
 
 const { isPending: cargadoListaEvoluciones , isError: errorfalloListaEvoluciones, data: datosevoluciones} = useQuery({ queryKey: ['idevoluciones',idPokemon], queryFn: () => obtenerEvolucionesPokemon(detallespokemon)})
+
+async function filtrarEvolucionesPokemon(datosevoluciones) {
+if (datosevoluciones.chain.evolves_to.length === 1 && datosevoluciones.chain.evolves_to[0].species ) {
+
+  obtenerEvoluciones(datosevoluciones.chain.evolves_to[0])
+
+ if (datosevoluciones.chain.evolves_to[0].evolves_to[0].species) {
+      setArrayEvoluciones(prev => [
+    ...prev,
+    {
+      name: datosevoluciones.chain.evolves_to[0].evolves_to[0].species.name,
+      url: datosevoluciones.chain.evolves_to[0].evolves_to[0].species.url,
+    }
+  ]);
+ }
+
+} else if  (datosevoluciones.chain.evolves_to.length > 1) {
+
+  datosevoluciones.chain.evolves_to.forEach(evolucion => {
+      obtenerEvoluciones(evolucion);
+    });
+
+
+ }
+}
+
+
+
+
+
+
+
 
     return (
         <div>
